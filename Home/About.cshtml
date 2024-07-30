@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "About Us";
+}
+
+<style>
+    .about-container {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+        .about-container img {
+            width: 40%;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+
+        .about-container .text-content {
+            flex: 1;
+        }
+
+        .about-container h3, .about-container h4 {
+            margin-top: 0;
+        }
+
+        .about-container p {
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: justify;
+        }
+</style>
+
+<div class="about-container">
+    <img src="@Url.Content("~/Content/images/bg.jpg")" alt="About Us Image" />
+    <div class="text-content">
+        <h3>Welcome to Our Real Estate Portal</h3>
+        <p>
+            Our Real Estate Portal is dedicated to helping you find your dream home. With our user-friendly interface and comprehensive search options, we make the home-buying process as seamless as possible.
+        </p>
+        <h4>Our Mission</h4>
+        <p>
+            Our mission is to provide an exceptional real estate experience by connecting buyers with the perfect property and offering valuable insights into the real estate market.
+        </p>
+        <h4>Why Choose Us?</h4>
+        <ul>
+            <li>Extensive property listings across various locations.</li>
+            <li>Detailed property information and high-quality images.</li>
+            <li>Advanced search filters to find exactly what you're looking for.</li>
+            <li>Expert advice and support from our experienced team.</li>
+        </ul>
+        <h4>Contact Us</h4>
+        <p>
+            For any inquiries or assistance, feel free to <a href="/Home/Contact">contact us</a>.
+        </p>
+    </div>
+</div>

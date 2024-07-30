@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Real Estate Portal";
+    var backgroundImageUrl = Url.Content("~/Content/images/image2.jpg");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find your dream home with our real estate portal. Browse listings, contact agents, and more.">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .banner {
+            position: relative;
+            background: url('@backgroundImageUrl') no-repeat center center;
+            background-size: cover;
+            color: white;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+            z-index: 1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner h1 {
+            font-size: 3em;
+            margin: 0.5em 0;
+        }
+
+        .banner p {
+            font-size: 1.5em;
+            margin: 0.5em 0;
+            max-width: 800px;
+        }
+
+        .content {
+            padding: 50px;
+            text-align: center;
+        }
+
+        .content h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Find Your Dream Home</h1>
+            <p>Browse listings, contact agents, and more with our comprehensive real estate portal.</p>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Welcome to Our Real Estate Portal</h2>
+        <p>At our portal, we provide you with the best listings to find your dream home. Whether you are looking for a cozy apartment in the city or a spacious house in the suburbs, our extensive database of properties caters to all your needs.</p>
+        <p>We also offer tools and resources to help you make informed decisions. Contact our agents for personalized assistance and make your home buying journey smooth and hassle-free.</p>
+    </div>
+</body>
+</html>
