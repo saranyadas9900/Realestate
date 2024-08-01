@@ -1,0 +1,76 @@
+﻿@model WebApplication4.Models.Admin
+
+@{
+    ViewBag.Title = "Admin Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-home">
+    <div class="jumbotron text-center">
+        <h1>Welcome, @Model.Username</h1>
+        <p class="lead">Manage your real estate portal with ease.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="@Url.Content("~/Content/images/create_property.jpg")" alt="Create Property Listing">
+                <div class="card-body">
+                    <h5 class="card-title">Create Property Listing</h5>
+                    <p class="card-text">Add new properties to the portal.</p>
+                    <a href="@Url.Action("CreatePropertyListing", "Admin")" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="@Url.Content("~/Content/images/view-propertylisting.jpg")" alt="View Property Listings">
+                <div class="card-body">
+                    <h5 class="card-title">View Property Listings</h5>
+                    <p class="card-text">View and manage all property listings.</p>
+                    <a href="@Url.Action("ViewPropertyListings", "Admin")" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="@Url.Content("~/Content/images/bg.jpg")" alt="View User Details">
+                <div class="card-body">
+                    <h5 class="card-title">View User Details</h5>
+                    <p class="card-text">View and manage user details.</p>
+                    <a href="@Url.Action("ViewUserDetails", "Admin")" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="@Url.Content("~/Content/images/add-agent.jpg")" alt="Add New Agent">
+                <div class="card-body">
+                    <h5 class="card-title">Add New Agent</h5>
+                    <p class="card-text">Add new agents to the portal.</p>
+                    <a href="@Url.Action("AddNewAgent", "Admin")" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="@Url.Content("~/Content/images/change-password.jpg")" alt="Change Admin Password">
+                <div class="card-body">
+                    <h5 class="card-title">Change Admin Password</h5>
+                    <p class="card-text">Change your account password.</p>
+                    <a href="@Url.Action("ChangeAdminPassword", "Admin")" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="@Url.Content("~/Content/images/log-out.jpg")" alt="Logout">
+                <div class="card-body">
+                    <h5 class="card-title">Logout</h5>
+                    <p class="card-text">Logout from your account.</p>
+                    <a href="@Url.Action("Logout", "Admin")" class="btn btn-danger">Go</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
