@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "ViewUserDetails";
+}
+
+
+@model IEnumerable<WebApplication4.Models.User>
+
+@{
+    ViewBag.Title = "View User Details";
+}
+
+<h2>View User Details</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email Address</th>
+            <th>Phone Number</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.EmailAddress</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.City</td>
+                <td>@user.State</td>
+                <td>@user.DateOfBirth</td>
+                <td>@user.Gender</td>
+                <td>
+                    <a href="@Url.Action("EditUser", new { id = user.UserID })" class="btn btn-primary btn-sm">Edit</a>
+                    @Html.ActionLink("Delete User", "DeleteUser", "Admin", new { id = user.UserID }, null)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
