@@ -1,14 +1,21 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
+using System.IO;
 using System.Web.Mvc;
 using WebApplication4.Models;
+
+using WebApplication4.Repositories;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
+using System.Net;
 
 namespace WebApplication4.Controllers
 {
     public class UserController : Controller
     {
-        // GET: SignUp
+        private readonly UserRepository _userRepository = new UserRepository();
+
         public ActionResult SignUp()
         {
             return View();
@@ -22,30 +29,7 @@ namespace WebApplication4.Controllers
             {
                 try
                 {
-                    string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        using (SqlCommand command = new SqlCommand("sp_RegisterUser1", connection))
-                        {
-                            command.CommandType = CommandType.StoredProcedure;
-
-                            command.Parameters.AddWithValue("@FirstName", user.FirstName);
-                            command.Parameters.AddWithValue("@LastName", user.LastName);
-                            command.Parameters.AddWithValue("@DateOfBirth", user.DateOfBirth);
-                            command.Parameters.AddWithValue("@Gender", user.Gender);
-                            command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-                            command.Parameters.AddWithValue("@EmailAddress", user.EmailAddress);
-                            command.Parameters.AddWithValue("@Address", user.Address);
-                            command.Parameters.AddWithValue("@State", user.State);
-                            command.Parameters.AddWithValue("@City", user.City);
-                            command.Parameters.AddWithValue("@Username", user.Username);
-                            command.Parameters.AddWithValue("@Password", user.Password);
-
-                            connection.Open();
-                            command.ExecuteNonQuery();
-                            connection.Close();
-                        }
-                    }
+                    _userRepository.RegisterUser(user);
                     ViewBag.Message = "Registration successful!";
                     return RedirectToAction("SignUpSuccess");
                 }
@@ -77,33 +61,19 @@ namespace WebApplication4.Controllers
             {
                 try
                 {
-                    string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    bool isValidUser = _userRepository.ValidateUser(model);
+                    if (isValidUser)
                     {
-                        using (SqlCommand command = new SqlCommand("sp_ValidateUser", connection))
-                        {
-                            command.CommandType = CommandType.StoredProcedure;
-
-                            command.Parameters.AddWithValue("@Username", model.Username);
-                            command.Parameters.AddWithValue("@Password", model.Password);
-
-                            connection.Open();
-                            var result = command.ExecuteScalar();
-
-                            if (result != null && (int)result > 0)
-                            {
-                                // Successful login
-                                ViewBag.Message = "Login successful!";
-                                return RedirectToAction("Index", "Home");
-                            }
-                            else
-                            {
-                                // Invalid credentials
-                                ViewBag.Message = "Invalid username or password.";
-                            }
-
-                            connection.Close();
-                        }
+                        // Assume user ID is retrieved and set in session
+                        var userId = _userRepository.GetUserIdByUsername(model.Username);
+                        Session["UserId"] = userId;
+                        ViewBag.Message = "Login successful!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        // Invalid credentials
+                        ViewBag.Message = "Invalid username or password.";
                     }
                 }
                 catch (Exception ex)
@@ -111,10 +81,190 @@ namespace WebApplication4.Controllers
                     ViewBag.Message = $"An error occurred: {ex.Message}";
                 }
             }
-
-            // Return the view with ViewBag.Message for error display
             return View(model);
         }
+        public ActionResult Index()
+        {
+            try
+            {
+                var userId = GetCurrentUserId();
+                var userModel = _userRepository.GetUserDetails(userId);
+                return View(userModel);
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("SignIn", "User");
+            }
+        }
+        public ActionResult ViewPropertyListings()
+        {
+            try
+            {
+                var properties = _userRepository.GetPropertyListings();
+                return View(properties);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = $"An error occurred: {ex.Message}";
+                return View("Error");
+            }
+        }
+
+        public ActionResult ScheduleVisit(int id)
+        {
+            // Store the PropertyId in TempData for later use
+            TempData["PropertyId"] = id;
+            // Create and pass an empty VisitSchedule model to the view
+            return View("ScheduleVisit", new VisitSchedule());
+        }
+        public ActionResult VisitSuccess()
+        {
+            return View();
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult ScheduleVisit(VisitSchedule model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    int propertyId = (int)TempData["PropertyId"];
+                    int userId = GetCurrentUserId();
+
+                    // Call the stored procedure to schedule the visit
+                    _userRepository.ScheduleVisit(propertyId, userId, model.VisitDate);
+
+                    return RedirectToAction("VisitSuccess");
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = $"An error occurred: {ex.Message}";
+                }
+            }
+            return View(model);
+        }
+
+
+
+
+        [HttpGet]
+        public ActionResult SearchProperties()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult SearchProperties(string state, string city, int? minBedrooms, int? minBathrooms, decimal? minPrice, decimal? maxPrice)
+        {
+            var properties = _userRepository.SearchProperties(state, city, minBedrooms, minBathrooms, minPrice, maxPrice);
+            return View("SearchResults", properties);
+        }
+
+        [HttpPost]
+        public ActionResult AddToFavorites(int id)
+        {
+            try
+            {
+                int userId = GetCurrentUserId(); // Ensure this method retrieves the current user ID correctly.
+                _userRepository.AddToFavorites(userId, id); // Ensure this method adds the property to the user's favorites list.
+
+                return RedirectToAction("ViewPropertyListings"); // Redirect after adding to favorites
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                ViewBag.Message = $"An error occurred: {ex.Message}";
+                return View("Error"); // Return to an error view or handle the error appropriately
+            }
+        }
+
+
+        public ActionResult ViewFavoriteProperties()
+        {
+            try
+            {
+                int userId = GetCurrentUserId();
+                List<PropertyListing> favoriteProperties = _userRepository.GetFavoriteProperties(userId);
+                return View(favoriteProperties);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = $"An error occurred: {ex.Message}";
+                return View("Error");
+            }
+        }
+
+        public ActionResult EditProfile()
+        {
+            var userId = GetCurrentUserId();
+            var userModel = _userRepository.GetUserDetails(userId);
+            return View(userModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(User updatedUser)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Implement update user logic here
+                    ViewBag.Message = "Profile updated successfully!";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = $"An error occurred: {ex.Message}";
+                }
+            }
+            return View(updatedUser);
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+       /* public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Implement change password logic here
+                    ViewBag.Message = "Password changed successfully!";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = $"An error occurred: {ex.Message}";
+                }
+            }
+            return View(model);
+        }*/
+
+        public ActionResult Logout()
+        {
+            Session.Clear(); // Clears all session data
+            return RedirectToAction("SignIn");
+        }
+
+
+        public int GetCurrentUserId()
+        {
+            if (Session["UserId"] != null)
+            {
+                return (int)Session["UserId"];
+            }
+            else
+            {
+                throw new InvalidOperationException("User is not logged in.");
+            }
+        }
+
     }
 }
-

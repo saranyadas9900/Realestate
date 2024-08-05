@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "DeleteAgent";
+}
+
+<h2>DeleteAgent</h2>
+
+@model WebApplication4.Models.AgentViewModel
+
+@{
+    ViewBag.Title = "Delete Agent";
+}
+
+<h2>Delete Agent</h2>
+
+<div class="form-horizontal">
+    <h4>Are you sure you want to delete this agent?</h4>
+    <hr />
+    @using (Html.BeginForm("DeleteAgentConfirmed", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.Hidden("id", Model.AgentID)
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Username</label>
+            <div class="col-md-10">
+                <p class="form-control-static">@Model.Username</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Name</label>
+            <div class="col-md-10">
+                <p class="form-control-static">@Model.Name</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                @Html.ActionLink("Cancel", "Index", new { @class = "btn btn-default" })
+            </div>
+        </div>
+    }
+</div>

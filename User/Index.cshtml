@@ -1,0 +1,16 @@
+﻿@model WebApplication4.Models.User
+
+@{
+    ViewBag.Title = "User Home";
+}
+
+<h2>Welcome, @Model.FirstName @Model.LastName</h2>
+
+<ul>
+    <li>@Html.ActionLink("View Property Listings", "ViewPropertyListings")</li>
+    <li>@Html.ActionLink("Search Properties", "SearchProperties")</li>
+    <li>@Html.ActionLink("Save Favorite Properties", "SaveFavorite", new { propertyId = 1 })</li>
+    <li>@Html.ActionLink("Edit Profile", "EditProfile")</li>
+    <li>@Html.ActionLink("Change Password", "ChangePassword")</li>
+    <li>@Html.ActionLink("Logout", "Logout")</li>
+</ul>
