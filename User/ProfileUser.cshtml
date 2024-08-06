@@ -1,0 +1,76 @@
+﻿@model WebApplication4.Models.User
+
+@{
+    ViewBag.Title = "ProfileUser";
+}
+
+<div class="container mt-5">
+    <div class="profile-card card mx-auto">
+        <div class="card-header text-center bg-primary text-white">
+            <h2>Your Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <!-- Placeholder for profile picture -->
+                    <img src="@Url.Content("~/Content/images/profile.png")" alt="Profile Picture" class="profile-picture img-fluid rounded-circle">
+                </div>
+                <div class="col-md-8">
+                    <div class="profile-info">
+                        <p><strong>First Name:</strong> @Model.FirstName</p>
+                        <p><strong>Last Name:</strong> @Model.LastName</p>
+                        <p><strong>Email:</strong> @Model.EmailAddress</p>
+                        <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+                        <p><strong>Address:</strong> @Model.Address</p>
+                        <p><strong>State:</strong> @Model.State</p>
+                        <p><strong>City:</strong> @Model.City</p>
+                        <p><strong>Gender:</strong> @Model.Gender</p>
+                        <p><strong>Date of Birth:</strong> @Model.DateOfBirth.ToString("MMMM d, yyyy")</p>
+                        <p><strong>Username:</strong> @Model.Username</p>
+                        <!-- Password is not displayed for security reasons -->
+                    </div>
+                    <a href="@Url.Action("EditProfile", "User", new { id = Model.UserID })" class="btn btn-primary mt-3">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-card {
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+    }
+
+    .card-header {
+        border-bottom: none;
+    }
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 5px solid #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-info p {
+        margin: 0;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .profile-info p:last-child {
+            border-bottom: none;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>

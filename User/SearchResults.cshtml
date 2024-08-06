@@ -1,0 +1,59 @@
+﻿@model IEnumerable<WebApplication4.Models.PropertyListing>
+
+@{
+    ViewBag.Title = "Search Results";
+}
+
+<h2>Search Results</h2>
+
+@if (Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip Code</th>
+                <th>Price</th>
+                <th>Bedrooms</th>
+                <th>Bathrooms</th>
+                <th>Listing Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var property in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(property.PhotoBase64))
+                        {
+                            <img src="data:image/jpeg;base64,@property.PhotoBase64" alt="Property Photo" style="width:100px;height:75px;" />
+                        }
+                        else
+                        {
+                            <img src="path/to/default/image.jpg" alt="No Photo" style="width:100px;height:75px;" />
+                        }
+                    </td>
+                    <td>@property.Title</td>
+                    <td>@property.Description</td>
+                    <td>@property.Address</td>
+                    <td>@property.City</td>
+                    <td>@property.State</td>
+                    <td>@property.ZipCode</td>
+                    <td>@property.Price.ToString("C")</td>
+                    <td>@property.Bedrooms</td>
+                    <td>@property.Bathrooms</td>
+                    <td>@property.ListingDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No search results found.</p>
+}

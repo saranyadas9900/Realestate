@@ -1,0 +1,56 @@
+﻿@model WebApplication4.Models.User
+
+<h2>Edit Profile</h2>
+
+@using (Html.BeginForm("UpdateProfile", "User", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.UserID)
+    <div>
+        @Html.LabelFor(model => model.FirstName)
+        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.FirstName)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.LastName)
+        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LastName)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.DateOfBirth)
+        @Html.TextBoxFor(model => model.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.DateOfBirth)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Gender)
+        @Html.TextBoxFor(model => model.Gender, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Gender)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.PhoneNumber)
+        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PhoneNumber)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.EmailAddress)
+        @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.EmailAddress)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Address)
+        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Address)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.State)
+        @Html.TextBoxFor(model => model.State, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.State)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.City)
+        @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.City)
+    </div>
+    <div>
+        <input type="submit" value="Save Changes" class="btn btn-primary" />
+    </div>
+}

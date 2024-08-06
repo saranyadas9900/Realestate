@@ -1,0 +1,36 @@
+﻿@model WebApplication4.Models.User
+
+@{
+    ViewBag.Title = "User Home";
+}
+
+<div class="container mt-6">
+    <div class="card text-center">
+        <div class="card-header bg-primary text-white">
+            <h2>Welcome, @Model.FirstName @Model.LastName</h2>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Here you can manage your account, view notifications, and access other features.</p>
+            <a href="@Url.Action("ProfileUser", "User")" class="btn btn-primary">View Profile</a>
+        </div>
+        <div class="card-footer text-muted">
+            <small>Last login: @DateTime.Now.ToString("MMMM d, yyyy h:mm tt")</small>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        border-bottom: none;
+    }
+
+    .card-footer {
+        border-top: none;
+    }
+</style>
