@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Admin Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+   
+    <style>
+        .container1 {
+            max-width: 400px;
+            margin: 50px auto; /* Center the form container and add top margin */
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #333;
+            }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #555;
+            }
+
+            .form-group input[type="text"],
+            .form-group input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+                .form-group input[type="text"]:focus,
+                .form-group input[type="password"]:focus {
+                    border-color: #007bff;
+                    outline: none;
+                }
+
+        .btn-primary {
+            width: 300px;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <h2>Admin Login</h2>
+
+        <form action="/Admin/Login" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required />
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p>@ViewBag.ErrorMessage</p>
+        }
+    </div>
+</body>
+</html>

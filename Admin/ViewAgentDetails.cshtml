@@ -1,0 +1,31 @@
+﻿@model List<WebApplication4.Models.AgentViewModel>
+
+<h2>Agent Details</h2>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var agent in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Agent ID: @agent.AgentID</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@agent.Username</h6>
+                        <p class="card-text"><strong>Name:</strong> @agent.Name</p>
+                        <p class="card-text"><strong>Phone Number:</strong> @agent.PhoneNumber</p>
+                        <p class="card-text"><strong>Email:</strong> @agent.Email</p>
+                        <div class="d-flex justify-content-between">
+                            @Html.ActionLink("Edit", "EditAgent", new { id = agent.AgentID }, new { @class = "btn btn-primary btn-sm" })
+                            @Html.ActionLink("Delete", "DeleteAgent", new { id = agent.AgentID }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Are you sure you want to delete this agent?');" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No agents available.</p>
+}

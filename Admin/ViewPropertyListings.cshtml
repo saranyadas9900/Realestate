@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebApplication4.Models.PropertyListing>
+
+@{
+    ViewBag.Title = "Property Listings";
+}
+
+<h2>Property Listings</h2>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var listing in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    @if (!string.IsNullOrEmpty(listing.PhotoBase64))
+                    {
+                        <img src="@($"data:image/png;base64,{listing.PhotoBase64}")" alt="Property Photo" class="card-img-top" />
+                    }
+                    else
+                    {
+                        <img src="/path/to/default-image.png" alt="Default Photo" class="card-img-top" />
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@listing.Title</h5>
+                        <p class="card-text"><strong>Description:</strong> @listing.Description</p>
+                        <p class="card-text"><strong>Address:</strong> @listing.Address</p>
+                        <p class="card-text"><strong>City:</strong> @listing.City</p>
+                        <p class="card-text"><strong>State:</strong> @listing.State</p>
+                        <p class="card-text"><strong>Zip Code:</strong> @listing.ZipCode</p>
+                        <p class="card-text"><strong>Price:</strong> @listing.Price.ToString("C")</p>
+                        <p class="card-text"><strong>Bedrooms:</strong> @listing.Bedrooms</p>
+                        <p class="card-text"><strong>Bathrooms:</strong> @listing.Bathrooms</p>
+                        <p class="card-text"><strong>Listing Date:</strong> @listing.ListingDate.ToShortDateString()</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("Edit", new { id = listing.Id })" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="@Url.Action("Delete", new { id = listing.Id })" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this property?');">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No property listings available.</p>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="photoModalLabel">Property Photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="modalPhoto" src="" alt="Property Photo" style="width:100%;height:auto;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $('#photoModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var imgSrc = button.data('img'); // Extract info from data-* attributes
+            var modal = $(this);
+            modal.find('#modalPhoto').attr('src', imgSrc); // Update the modal's content.
+        });
+    </script>
+}

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebApplication4.Models.User>
+
+@{
+    ViewBag.Title = "View User Details";
+}
+
+<h2>View User Details</h2>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var user in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@user.FirstName @user.LastName</h5>
+                        <p class="card-text"><strong>Email Address:</strong> @user.EmailAddress</p>
+                        <p class="card-text"><strong>Phone Number:</strong> @user.PhoneNumber</p>
+                        <p class="card-text"><strong>City:</strong> @user.City</p>
+                        <p class="card-text"><strong>State:</strong> @user.State</p>
+                        <p class="card-text"><strong>Date of Birth:</strong> @user.DateOfBirth.ToShortDateString()</p>
+                        <p class="card-text"><strong>Gender:</strong> @user.Gender</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("EditUser", new { id = user.UserID })" class="btn btn-primary btn-sm">Edit</a>
+                            @using (Html.BeginForm("DeleteUserConfirmed", "Admin", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("id", user.UserID)
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No user details available.</p>
+}

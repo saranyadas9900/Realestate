@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "CreatePropertyListingSuccess";
+}
+
+<h2>Property Listing Created Successfully</h2>
+
+<div class="alert alert-success">
+    <strong>Success!</strong> The property listing has been created successfully.
+</div>
+
+<p>
+    <a href="@Url.Action("CreatePropertyListing", "Admin")" class="btn btn-primary">Create Another Listing</a>
+    <a href="@Url.Action("Index", "Admin")" class="btn btn-default">Back to Admin Dashboard</a>
+</p>
+
