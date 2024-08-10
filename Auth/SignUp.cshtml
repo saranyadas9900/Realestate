@@ -1,0 +1,122 @@
+﻿@model WebApplication4.Models.User
+
+@{
+    ViewBag.Title = "Sign Up";
+}
+
+<h2>Sign Up</h2>
+
+@using (Html.BeginForm("SignUp", "Auth", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", id = "FirstName" })
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", id = "LastName" })
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateOfBirth)
+        @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", id = "DateOfBirth" })
+        @Html.ValidationMessageFor(m => m.DateOfBirth)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Gender)
+        <div>
+            @Html.RadioButtonFor(m => m.Gender, "Male", new { id = "GenderMale" }) Male
+            @Html.RadioButtonFor(m => m.Gender, "Female", new { id = "GenderFemale" }) Female
+            @Html.RadioButtonFor(m => m.Gender, "Other", new { id = "GenderOther" }) Other
+        </div>
+        @Html.ValidationMessageFor(m => m.Gender)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber)
+        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", id = "PhoneNumber" })
+        @Html.ValidationMessageFor(m => m.PhoneNumber)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.EmailAddress)
+        @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", @type = "email", id = "EmailAddress" })
+        @Html.ValidationMessageFor(m => m.EmailAddress)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address)
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", id = "Address" })
+        @Html.ValidationMessageFor(m => m.Address)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.State)
+        @Html.DropDownListFor(m => m.State, new SelectList(new List<string> { "Select State", "Kerala", "Tamilnadu", "Karnataka" }), "Select State", new { @class = "form-control", id = "stateDropdown" })
+        @Html.ValidationMessageFor(m => m.State)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.City)
+        @Html.DropDownListFor(m => m.City, new SelectList(new List<string> { "Select City" }), "Select City", new { @class = "form-control", id = "cityDropdown" })
+        @Html.ValidationMessageFor(m => m.City)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username)
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", id = "Username" })
+        @Html.ValidationMessageFor(m => m.Username)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "Password" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", id = "ConfirmPassword" })
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Message
+    </div>
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/validation.js"></script>
+    <script>
+        $(document).ready(function () {
+            var citiesByState = {
+                "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode"],
+                "Tamilnadu": ["Chennai", "Coimbatore", "Madurai"],
+                "Karnataka": ["Bengaluru", "Mysuru", "Hubli"]
+            };
+
+            $('#stateDropdown').change(function () {
+                var selectedState = $(this).val();
+                var cities = citiesByState[selectedState] || [];
+
+                // Clear current city options
+                $('#cityDropdown').empty().append('<option>Select City</option>');
+
+                // Add new city options
+                $.each(cities, function (index, city) {
+                    $('#cityDropdown').append($('<option>').text(city).val(city));
+                });
+            });
+        });
+    </script>
+}

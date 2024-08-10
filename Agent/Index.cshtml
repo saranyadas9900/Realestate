@@ -1,0 +1,82 @@
+﻿@model WebApplication4.Models.AgentViewModel
+
+@{
+    ViewBag.Title = "Agent Home";
+}
+
+
+
+<div class="container1 mt-5">
+    <div class="card shadow-lg rounded-lg">
+        <div class="card-header  text-white text-center rounded-top">
+            <h2 class="mb-0">Welcome, @Model.Name</h2>
+        </div>
+        <div class="card-body text-center p-5">
+            <img src="~/Content/images/add-agent.jpg" class="img-fluid mb-4" alt="Welcome Agent" style="max-height: 200px; border-radius: 10px;">
+            <p class="card-text mb-4">We're glad to have you on board. As an agent, you have access to all the tools you need to manage your listings and clients effectively. Stay updated with the latest market trends and offer the best services to your clients.</p>
+            <p class="card-text mb-4">Make sure to check your notifications regularly and update your profile to keep your information current.</p>
+        </div>
+        <div class="card-footer bg-light text-center rounded-bottom">
+            <small class="text-muted">Last login: @DateTime.Now.ToString("MMMM d, yyyy h:mm tt")</small>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f5f7fa; /* Soft background color */
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container1 {
+        max-width: 800px; /* Adjust container width for better spacing */
+        margin: auto;
+        padding: 20px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    .card-header {
+        background-color: #921A40;
+        border-bottom: none;
+        border-radius: 15px 15px 0 0;
+        padding: 20px;
+    }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+    .card-body {
+        padding: 40px;
+        color: #333;
+    }
+
+        .card-body p {
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: none;
+        padding: 15px;
+    }
+
+        .card-footer small {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+</style>

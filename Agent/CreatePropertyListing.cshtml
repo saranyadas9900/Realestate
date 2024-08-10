@@ -1,0 +1,80 @@
+﻿@model WebApplication4.Models.PropertyListing
+
+
+
+<h2>Create Property Listing</h2>
+
+@using (Html.BeginForm("CreatePropertyListing", "Agent", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.LabelFor(model => model.Title)
+        @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Title)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Description)
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Address)
+        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Address)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.City)
+        @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.City)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.State)
+        @Html.TextBoxFor(model => model.State, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.State)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.ZipCode)
+        @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ZipCode)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Price)
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Price)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Bedrooms)
+        @Html.TextBoxFor(model => model.Bedrooms, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Bedrooms)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Bathrooms)
+        @Html.TextBoxFor(model => model.Bathrooms, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Bathrooms)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Photo)
+        <input type="file" name="Photo" id="Photo" class="form-control" />
+        @Html.ValidationMessageFor(model => model.Photo)
+    </div>
+
+    
+
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<WebApplication4.Models.PropertyListing>
+
+@{
+    ViewBag.Title = "View Property Listings";
+}
+
+<h2>Property Listings</h2>
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+@if (Model.Any())
+{
+    <div class="property-listings-container">
+        @foreach (var listing in Model)
+        {
+            <div class="property-card">
+                <div class="property-photo">
+                    @if (!string.IsNullOrEmpty(listing.PhotoBase64))
+                    {
+                        <a href="#" data-toggle="modal" data-target="#photoModal" data-img="@($"data:image/png;base64,{listing.PhotoBase64}")">
+                            <img src="@($"data:image/png;base64,{listing.PhotoBase64}")" alt="Property Photo" />
+                        </a>
+                    }
+                    else
+                    {
+                        <span>No Photo</span>
+                    }
+                </div>
+                <div class="property-details">
+                    <h3>@listing.Title</h3>
+                    <p>@listing.Description</p>
+                    <p><strong>Address:</strong> @listing.Address, @listing.City, @listing.State, @listing.ZipCode</p>
+                    <p><strong>Price:</strong> @listing.Price.ToString("C")</p>
+                    <p><strong>Bedrooms:</strong> @listing.Bedrooms</p>
+                    <p><strong>Bathrooms:</strong> @listing.Bathrooms</p>
+                    <p><strong>Listing Date:</strong> @listing.ListingDate.ToShortDateString()</p>
+                </div>
+                <div class="property-actions">
+                    <a href="@Url.Action("Edit", new { id = listing.Id })" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="@Url.Action("Delete", new { id = listing.Id })" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this property?');">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No property listings available.</p>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="photoModalLabel">Property Photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="modalPhoto" src="" alt="Property Photo" style="width:100%;height:auto;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $('#photoModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var imgSrc = button.data('img');
+            var modal = $(this);
+            modal.find('#modalPhoto').attr('src', imgSrc);
+        });
+    </script>
+}
+
+<style>
+    .property-listings-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .property-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        width: calc(33.333% - 20px);
+        box-sizing: border-box;
+        background-color: #fff;
+    }
+
+    .property-photo img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .property-details h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 1.25em;
+    }
+
+    .property-details p {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .property-actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+    }
+
+        .property-actions a {
+            flex: 1;
+        }
+
+    .property-details strong {
+        color: #000;
+    }
+</style>

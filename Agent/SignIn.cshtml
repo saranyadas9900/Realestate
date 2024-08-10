@@ -1,0 +1,106 @@
+﻿@model WebApplication4.Models.SignInModel
+
+@{
+    ViewBag.Title = "Sign In";
+}
+
+<style>
+    .sign-in-container {
+        max-width: 400px;
+        margin: 50px auto; /* Center container horizontally and add top margin */
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center elements horizontally */
+        box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    }
+
+        .sign-in-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .sign-in-container div {
+            width: 100%; /* Ensure input fields span full width */
+            margin-bottom: 15px;
+        }
+
+        .sign-in-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .sign-in-container input[type="text"],
+        .sign-in-container input[type="password"] {
+            width: 100%; /* Full width of the container */
+            padding: 10px; /* Padding for better appearance */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border in the element's total width */
+        }
+
+            .sign-in-container input[type="text"]:focus,
+            .sign-in-container input[type="password"]:focus {
+                border-color: #007bff;
+                outline: none;
+            }
+
+        .sign-in-container .validation-message {
+            color: red;
+            font-size: 0.875em;
+        }
+
+        .sign-in-container button {
+            width: 100%; /* Full width of the container */
+            padding: 12px; /* Increased padding for a larger button */
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px; /* Adjusted font size for balance */
+            cursor: pointer;
+            text-align: center; /* Center text within the button */
+            box-sizing: border-box; /* Include padding and border in the element's total width */
+        }
+
+            .sign-in-container button:hover {
+                background-color: #0056b3;
+            }
+
+        .sign-in-container .message {
+            margin-top: 15px;
+            color: #d9534f;
+            text-align: center;
+        }
+</style>
+
+<div class="sign-in-container">
+    <h2>Sign In</h2>
+
+    @using (Html.BeginForm())
+    {
+        <div>
+            @Html.LabelFor(model => model.Username)
+            @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "validation-message" })
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Password)
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "validation-message" })
+        </div>
+        <button type="submit">Sign In</button>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="message">@ViewBag.Message</div>
+    }
+</div>
+
+<script src="~/Scripts/Validation1.js" defer></script>

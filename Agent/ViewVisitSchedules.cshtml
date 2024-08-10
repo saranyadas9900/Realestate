@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WebApplication4.Models.VisitSchedule>
+
+@{
+    ViewBag.Title = "View Visit Schedules";
+    var currentDate = DateTime.Now; // Get the current date and time
+}
+
+<h2>View Visit Schedules</h2>
+
+<div class="schedule-container">
+    <div class="schedule-header">
+        <div class="schedule-item schedule-title">Property Title</div>
+        <div class="schedule-item schedule-user">User Name</div>
+        <div class="schedule-item schedule-date">Visit Date</div>
+    </div>
+
+    @foreach (var schedule in Model)
+    {
+        if (schedule.VisitDate >= currentDate) // Only display schedules with future or current dates
+        {
+            <div class="schedule-row">
+                <div class="schedule-item schedule-title">@schedule.Title</div>
+                <div class="schedule-item schedule-user">@schedule.UserName</div>
+                <div class="schedule-item schedule-date">@schedule.VisitDate.ToString("MM/dd/yyyy HH:mm")</div>
+            </div>
+        }
+    }
+</div>
+
+@section Styles {
+    <style>
+        .schedule-container {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+        }
+
+        .schedule-header, .schedule-row {
+            display: flex;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .schedule-header {
+            font-weight: bold;
+            background-color: #f4f4f4;
+        }
+
+        .schedule-item {
+            flex: 1;
+            padding: 5px;
+        }
+
+        .schedule-title {
+            flex: 3;
+        }
+
+        .schedule-user {
+            flex: 2;
+        }
+
+        .schedule-date {
+            flex: 2;
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+    </style>
+}
